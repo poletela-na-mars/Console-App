@@ -74,13 +74,13 @@ class ConsoleAppTest {
     void l() {
         assert result != null;
         assertEquals("22.03.2021 01:02:39" + System.lineSeparator()
-                + "96638 B" + System.lineSeparator() + "111", ConsoleApp.l(result[0]));
+                + "96638 B" + System.lineSeparator() + "111", ConsoleApp.l(result[0], false));
         assertEquals("22.03.2021 00:25:25" + System.lineSeparator()
-                + "23198 B" + System.lineSeparator() + "111", ConsoleApp.l(result[2]));
+                + "23198 B" + System.lineSeparator() + "111", ConsoleApp.l(result[2], false));
         assertEquals("22.03.2021 22:06:26" + System.lineSeparator()
-                + "127 B" + System.lineSeparator() + "111", ConsoleApp.l(result[3]));
+                + "127 B" + System.lineSeparator() + "111", ConsoleApp.l(result[3], false));
         assertEquals("22.03.2021 00:59:22" + System.lineSeparator()
-                + "0 B" + System.lineSeparator() + "111", ConsoleApp.l(result[4]));
+                + "0 B" + System.lineSeparator() + "111", ConsoleApp.l(result[4], false));
     }
 
     @Test

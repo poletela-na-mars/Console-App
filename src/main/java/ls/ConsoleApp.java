@@ -9,11 +9,6 @@ import java.util.*;
  */
 
 public class ConsoleApp {
-    public File file;
-
-    public ConsoleApp(File file) {
-        this.file = file;
-    }
 
     /**
      * Метод возвращает файлы, список файлов (касаемо директории).
@@ -23,8 +18,12 @@ public class ConsoleApp {
             return file.listFiles();
         } else {
             if (file.exists()) return new File[]{file};
-            return null;
+            return emptyFileArray();
         }
+    }
+    public static File[] emptyFileArray() {
+        File[] file = null;
+        return file;
     }
 
     public static String getName(File file) {
@@ -35,10 +34,11 @@ public class ConsoleApp {
      * Флаг, переключающий вывод в длинный формат. Указываются имя файла, права в виде битовой маски, время последней
      * модификации, размер в байтах.
      */
-    public static String l(File file) {
-        return timeOfLastModification(file) + System.lineSeparator()
+    public static String l(File file, boolean fl) {
+        if (fl) return timeOfLastModification(file);
+        else return timeOfLastModification(file) + System.lineSeparator()
                 + size(file) + " B"
-                + System.lineSeparator() + filePermissionsL(file);
+                + System.lineSeparator() + filePermissions(file, true, false);
     }
 
     /**
@@ -48,11 +48,9 @@ public class ConsoleApp {
         if (file.isDirectory()) {
             long l = 0;
             File[] files = file.listFiles();
-            assert files != null;
-            for (File fileD: files) {
-                if (fileD.isFile())
-                    l += fileD.length();
-                else l += size(fileD);  // Если директория, то повторем и анализируем размер каждого файла
+            for (File fileD : Objects.requireNonNull(files)) {
+                if (fileD.isDirectory()) l += size(fileD);  // Для случая: директория в директории
+                else l += fileD.length();
             }
             return l;
         }
@@ -66,7 +64,7 @@ public class ConsoleApp {
      */
     public static String human(File file)  {
         return sizeForHr(file) + System.lineSeparator()
-                + filePermissionsH(file);
+                + filePermissions(file, false, true);
     }
 
     /**
@@ -99,47 +97,43 @@ public class ConsoleApp {
         }
 
     /**
-     * Права на выполнение/чтение/запись в виде rwx для -h.
+     * Права на выполнение/чтение/запись битовой маски XXX для -l или rwx для -h.
      */
-    public static String filePermissionsH(File file) {
+    public static String filePermissions(File file, boolean l, boolean hr){
         StringBuilder permission = new StringBuilder();
-        if (file.canRead()) {
-            permission.append("r");
-        } else {
-            permission.append("-");
+        if (l) {
+            if (file.canRead()) {
+                permission.append("1");
+            } else {
+                permission.append("0");
+            }
+            if (file.canWrite()) {
+                permission.append("1");
+            } else {
+                permission.append("0");
+            }
+            if (file.canExecute()) {
+                permission.append("1");
+            } else {
+                permission.append("0");
+            }
         }
-        if (file.canWrite()) {
-            permission.append("w");
-        } else {
-            permission.append("-");
-        }
-        if (file.canExecute()) {
-            permission.append("x");
-        } else {
-            permission.append("-");
-        }
-        return permission.toString();
-    }
-
-    /**
-     * Права на выполнение/чтение/запись в виде битовой маски для -l.
-     */
-    public static String filePermissionsL(File file) {
-        StringBuilder permission = new StringBuilder();
-        if (file.canRead()) {
-            permission.append("1");
-        } else {
-            permission.append("0");
-        }
-        if (file.canWrite()) {
-            permission.append("1");
-        } else {
-            permission.append("0");
-        }
-        if (file.canExecute()) {
-            permission.append("1");
-        } else {
-            permission.append("0");
+        if (hr) {
+            if (file.canRead()) {
+                permission.append("r");
+            } else {
+                permission.append("-");
+            }
+            if (file.canWrite()) {
+                permission.append("w");
+            } else {
+                permission.append("-");
+            }
+            if (file.canExecute()) {
+                permission.append("x");
+            } else {
+                permission.append("-");
+            }
         }
         return permission.toString();
     }
