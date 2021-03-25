@@ -37,7 +37,7 @@ public class Main {
             parser.parseArgument(args);
         } catch (CmdLineException exp) {
             System.err.println(exp.getMessage());
-            System.err.println("java -jar Ls.jar [-l] [-h] [-r] [-o output.file] directory_or_file");
+            parser.printUsage(System.err);
             System.exit(1);
             return;
         }

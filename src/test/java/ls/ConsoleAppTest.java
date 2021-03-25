@@ -32,18 +32,18 @@ class ConsoleAppTest {
     @Test
     void sizeForHr() {
         File test = new File("src//test//java//resources//java.PNG");
-        assertEquals(ConsoleApp.sizeForHr(test), "43 Kb");
+        assertEquals(ConsoleApp.rightSize(test), "43 Kb");
         File test1 = new File("src//test//java//resources//kotlin.PNG");
-        assertEquals(ConsoleApp.sizeForHr(test1), "22 Kb");
+        assertEquals(ConsoleApp.rightSize(test1), "22 Kb");
         File test2 = new File("src//test//java//resources//three.txt");
-        assertEquals(ConsoleApp.sizeForHr(test2), "0 B");
+        assertEquals(ConsoleApp.rightSize(test2), "0 B");
         File test3 = new File("src//test//java//resources//two.txt");
-        assertNotEquals(ConsoleApp.sizeForHr(test3), ConsoleApp.timeOfLastModification(test3));
-        assertNotEquals(ConsoleApp.sizeForHr(test3), "2048 B");
-        assertEquals(ConsoleApp.sizeForHr(test3), "1 Kb");
+        assertNotEquals(ConsoleApp.rightSize(test3), ConsoleApp.timeOfLastModification(test3));
+        assertNotEquals(ConsoleApp.rightSize(test3), "2048 B");
+        assertEquals(ConsoleApp.rightSize(test3), "1 Kb");
         File test5 = new File("src//test//java//resources//no.txt");
-        assertNotEquals(ConsoleApp.sizeForHr(test5), "0 Kb");
-        assertEquals(ConsoleApp.sizeForHr(test5), "0 B");
+        assertNotEquals(ConsoleApp.rightSize(test5), "0 Kb");
+        assertEquals(ConsoleApp.rightSize(test5), "0 B");
     }
 
     private final File[] result = ConsoleApp.path(new File("src//test//java//resources"));
@@ -63,7 +63,7 @@ class ConsoleAppTest {
 
     @Test
     void name() {
-        //assert result != null;
+        assert result != null;
         assertEquals("folder", ConsoleApp.getName(result[0]));
         assertEquals("one.txt", ConsoleApp.getName(result[3]));
         assertEquals("java.png", ConsoleApp.getName(result[1]));

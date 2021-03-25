@@ -3,6 +3,8 @@ package ls;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+//import org.apache.commons.lang3.ArrayUtils;
+
 
 /**
  * @author Polina Postylyakova (poletela-na-mars)
@@ -18,13 +20,13 @@ public class ConsoleApp {
             return file.listFiles();
         } else {
             if (file.exists()) return new File[]{file};
-            return emptyFileArray();
+            return null;    //emptyFileArray()
         }
     }
-    public static File[] emptyFileArray() {
-        File[] file = null;
-        return file;
-    }
+
+    /*public static File[] emptyFileArray() {
+        return ArrayUtils.toArray();
+    }*/
 
     public static String getName(File file) {
         return file.getName();
@@ -37,8 +39,8 @@ public class ConsoleApp {
     public static String l(File file, boolean fl) {
         if (fl) return timeOfLastModification(file);
         else return timeOfLastModification(file) + System.lineSeparator()
-                + size(file) + " B"
-                + System.lineSeparator() + filePermissions(file, true, false);
+                + size(file) + " B" // Здесь не rightSize(), потому что нам нужно исключительно в байтах
+                + System.lineSeparator() + filePermissions(file,"1", "1", "1", "0");
     }
 
     /**
@@ -63,8 +65,8 @@ public class ConsoleApp {
      * права в виде rwx.
      */
     public static String human(File file)  {
-        return sizeForHr(file) + System.lineSeparator()
-                + filePermissions(file, false, true);
+        return rightSize(file) + System.lineSeparator()
+                + filePermissions(file, "r", "w", "x", "-");
     }
 
     /**
@@ -77,9 +79,9 @@ public class ConsoleApp {
     }
 
     /**
-     * Размер файла в кило-, мега- или гигабайтах для -h.
+     * Размер файла в кило-, мега- или гигабайтах.
      */
-    public static String sizeForHr(File file) {
+    public static String rightSize(File file) {
             long rightSize = size(file);
             int count = 0;
             while (rightSize >= 1024) {
@@ -99,41 +101,22 @@ public class ConsoleApp {
     /**
      * Права на выполнение/чтение/запись битовой маски XXX для -l или rwx для -h.
      */
-    public static String filePermissions(File file, boolean l, boolean hr){
+    public static String filePermissions(File file, String r, String w, String x, String none){
         StringBuilder permission = new StringBuilder();
-        if (l) {
-            if (file.canRead()) {
-                permission.append("1");
-            } else {
-                permission.append("0");
-            }
-            if (file.canWrite()) {
-                permission.append("1");
-            } else {
-                permission.append("0");
-            }
-            if (file.canExecute()) {
-                permission.append("1");
-            } else {
-                permission.append("0");
-            }
+        if (file.canRead()) {
+            permission.append(r);
+        } else {
+            permission.append(none);
         }
-        if (hr) {
-            if (file.canRead()) {
-                permission.append("r");
-            } else {
-                permission.append("-");
-            }
-            if (file.canWrite()) {
-                permission.append("w");
-            } else {
-                permission.append("-");
-            }
-            if (file.canExecute()) {
-                permission.append("x");
-            } else {
-                permission.append("-");
-            }
+        if (file.canWrite()) {
+            permission.append(w);
+        } else {
+            permission.append(none);
+        }
+        if (file.canExecute()) {
+            permission.append(x);
+        } else {
+            permission.append(none);
         }
         return permission.toString();
     }
