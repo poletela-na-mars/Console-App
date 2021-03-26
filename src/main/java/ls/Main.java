@@ -51,16 +51,14 @@ public class Main {
             if (op != null) {
                 try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
                     for (File file : Objects.requireNonNull(result)) {
-                        writer.write(ConsoleApp.getName(file) + System.lineSeparator());
-                        if (l) writer.write(ConsoleApp.l(file, hr) + System.lineSeparator());
-                        if (hr) writer.write(ConsoleApp.human(file) + System.lineSeparator());
+                        if (l) writer.write(ConsoleApp.infoHolder(file, true,true, true, false, false, true) + System.lineSeparator());
+                        if (hr) writer.write(ConsoleApp.infoHolder(file, true, true, false, true, true, false) + System.lineSeparator());
                     }
                 }
             } else {    // Если флаг отсутствует, то в консоль
                 for (File file : Objects.requireNonNull(result)) {
-                    System.out.println(ConsoleApp.getName(file));
-                    if (l) System.out.println(ConsoleApp.l(file, hr));
-                    if (hr) System.out.println(ConsoleApp.human(file));
+                    if (l) System.out.println(ConsoleApp.infoHolder(file, true,true, true, false, false, true));
+                    if (hr) System.out.println(ConsoleApp.infoHolder(file, true, true, false, true, true, false));
                 }
             }
         }

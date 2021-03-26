@@ -1,9 +1,11 @@
 package ls;
 
-import java.io.*;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
-//import org.apache.commons.lang3.ArrayUtils;
+import java.util.Date;
+import java.util.Objects;
 
 
 /**
@@ -20,27 +22,16 @@ public class ConsoleApp {
             return file.listFiles();
         } else {
             if (file.exists()) return new File[]{file};
-            return null;    //emptyFileArray()
+            return emptyFileArray(); //null
         }
     }
 
-    /*public static File[] emptyFileArray() {
+    public static File[] emptyFileArray() {
         return ArrayUtils.toArray();
-    }*/
+    }
 
     public static String getName(File file) {
         return file.getName();
-    }
-
-    /**
-     * Флаг, переключающий вывод в длинный формат. Указываются имя файла, права в виде битовой маски, время последней
-     * модификации, размер в байтах.
-     */
-    public static String l(File file, boolean fl) {
-        if (fl) return timeOfLastModification(file);
-        else return timeOfLastModification(file) + System.lineSeparator()
-                + size(file) + " B" // Здесь не rightSize(), потому что нам нужно исключительно в байтах
-                + System.lineSeparator() + filePermissions(file,"1", "1", "1", "0");
     }
 
     /**
@@ -60,13 +51,10 @@ public class ConsoleApp {
     }
 
     /**
-     * Флаг, переключающий вывод в человеко-читаемый формат.
-     * Указываются имя файла, размер файла в кило-, мега- или гигабайтах,
-     * права в виде rwx.
+     * Метод, возвращающий размер в байтах (отдельный метод, поскольку rightSize() может оптимизирровать до Кб, Мб ...).
      */
-    public static String human(File file)  {
-        return rightSize(file) + System.lineSeparator()
-                + filePermissions(file, "r", "w", "x", "-");
+    public static String sizeBytes(File file) {
+        return size(file) + " B";
     }
 
     /**
@@ -120,6 +108,24 @@ public class ConsoleApp {
         }
         return permission.toString();
     }
+
+    public static String infoHolder(File file, boolean name, boolean time, boolean size,
+                                    boolean sizeExt, boolean permissionsH, boolean permissionsL) {
+        String nameP = "";
+        if (name) nameP = getName(file) + System.lineSeparator();
+        String timeP = "";
+        if (time) timeP = timeOfLastModification(file) + System.lineSeparator();
+        String sizeP = "";
+        if (size) sizeP = sizeBytes(file) + System.lineSeparator();
+        String sizeExtP = "";
+        if (sizeExt) sizeExtP = rightSize(file) + System.lineSeparator();
+        String permissionsHP = "";
+        if (permissionsH) permissionsHP = filePermissions(file, "r", "w", "x", "-");
+        String permissionsLP = "";
+        if (permissionsL) permissionsLP = filePermissions(file, "1", "1", "1", "0");
+        return nameP + timeP + sizeP + sizeExtP + permissionsHP + permissionsLP;
+    }
+
 }
 
 
