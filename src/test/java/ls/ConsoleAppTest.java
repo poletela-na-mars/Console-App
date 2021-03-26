@@ -73,24 +73,24 @@ class ConsoleAppTest {
     void l() {
         assert result != null;
         assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator()
-                + "96638 B" + System.lineSeparator() + "111", ConsoleApp.infoHolder(result[0], true, true, true, false, false, true));
+                + "96638 B" + System.lineSeparator() + "111" + System.lineSeparator(), ConsoleApp.infoHolder(result[0], true, true, true, false, false, true));
         assertEquals("kotlin.png" + System.lineSeparator() + "22.03.2021 00:25:25" + System.lineSeparator()
-                + "23198 B" + System.lineSeparator() + "111", ConsoleApp.infoHolder(result[2], true, true, true, false, false, true));
+                + "23198 B" + System.lineSeparator() + "111" + System.lineSeparator(), ConsoleApp.infoHolder(result[2], true, true, true, false, false, true));
         assertEquals("one.txt" + System.lineSeparator() + "22.03.2021 22:06:26" + System.lineSeparator()
-                + "127 B" + System.lineSeparator() + "111", ConsoleApp.infoHolder(result[3], true, true, true, false, false, true));
+                + "127 B" + System.lineSeparator() + "111" + System.lineSeparator(), ConsoleApp.infoHolder(result[3], true, true, true, false, false, true));
         assertEquals("three.txt" + System.lineSeparator() + "22.03.2021 00:59:22" + System.lineSeparator()
-                + "0 B" + System.lineSeparator() + "111", ConsoleApp.infoHolder(result[4], true, true, true, false, false, true));
+                + "0 B" + System.lineSeparator() + "111" + System.lineSeparator(), ConsoleApp.infoHolder(result[4], true, true, true, false, false, true));
     }
 
     @Test
     void human() {
         assert result != null;
         assertEquals("folder" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
-                "rwx", ConsoleApp.infoHolder(result[0], true, false, false, true, true, false));
+                "rwx" + System.lineSeparator(), ConsoleApp.infoHolder(result[0], true, false, false, true, true, false));
         assertEquals("java.png" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
-                "rwx", ConsoleApp.infoHolder(result[1], true, false, false, true, true, false));
+                "rwx"+ System.lineSeparator(), ConsoleApp.infoHolder(result[1], true, false, false, true, true, false));
         assertEquals("three.txt" + System.lineSeparator() + "0 B" + System.lineSeparator() +
-                "rwx", ConsoleApp.infoHolder(result[4], true, false, false, true, true, false));
+                "rwx"+ System.lineSeparator(), ConsoleApp.infoHolder(result[4], true, false, false, true, true, false));
     }
 }
 

@@ -120,9 +120,9 @@ public class ConsoleApp {
         String sizeExtP = "";
         if (sizeExt) sizeExtP = rightSize(file) + System.lineSeparator();
         String permissionsHP = "";
-        if (permissionsH) permissionsHP = filePermissions(file, "r", "w", "x", "-");
+        if (permissionsH) permissionsHP = filePermissions(file, "r", "w", "x", "-") + System.lineSeparator();
         String permissionsLP = "";
-        if (permissionsL) permissionsLP = filePermissions(file, "1", "1", "1", "0");
+        if (permissionsL) permissionsLP = filePermissions(file, "1", "1", "1", "0") + System.lineSeparator();
         return nameP + timeP + sizeP + sizeExtP + permissionsHP + permissionsLP;
     }
 

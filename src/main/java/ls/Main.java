@@ -57,8 +57,10 @@ public class Main {
                 }
             } else {    // Если флаг отсутствует, то в консоль
                 for (File file : Objects.requireNonNull(result)) {
-                    if (l) System.out.println(ConsoleApp.infoHolder(file, true,true, true, false, false, true));
-                    if (hr) System.out.println(ConsoleApp.infoHolder(file, true, true, false, true, true, false));
+                    if (l && hr)
+                        System.out.println(ConsoleApp.infoHolder(file, true, true, true, true, true, true));
+                    else if (l) System.out.println(ConsoleApp.infoHolder(file, true,true, true, false, false, true));
+                    else if (hr) System.out.println(ConsoleApp.infoHolder(file, true, true, false, true, true, false));
                 }
             }
         }
