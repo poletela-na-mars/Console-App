@@ -42,25 +42,32 @@ public class Main {
             return;
         }
 
-        if (Objects.requireNonNull(ConsoleApp.path(forD)).length != 0) {    // Если есть аргументы
+        if (ConsoleApp.path(forD).length != 0) {    // Если есть аргументы
             File[] result = ConsoleApp.path(forD);
             if (rv) {
-                Collections.reverse(Arrays.asList(Objects.requireNonNull(result))); // Инвертируем массив с информацией о файлах,
+                Collections.reverse(Arrays.asList(result)); // Инвертируем массив с информацией о файлах,
                 // из-за присутствия флага -r
             }
             if (op != null) {
                 try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
-                    for (File file : Objects.requireNonNull(result)) {
-                        if (l) writer.write(ConsoleApp.infoHolder(file, true,true, true, false, false, true) + System.lineSeparator());
-                        if (hr) writer.write(ConsoleApp.infoHolder(file, true, true, false, true, true, false) + System.lineSeparator());
+                    for (File file : result) {
+                        ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(file);
+                        if (l && hr) writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
+                                inf.sizeP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
+                                inf.permissionsHP);
+                        else if (l) writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
+                        else if (hr) writer.write(inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
                     }
                 }
             } else {    // Если флаг отсутствует, то в консоль
-                for (File file : Objects.requireNonNull(result)) {
+                for (File file : result) {
+                    ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(file);
                     if (l && hr)
-                        System.out.println(ConsoleApp.infoHolder(file, true, true, true, true, true, true));
-                    else if (l) System.out.println(ConsoleApp.infoHolder(file, true,true, true, false, false, true));
-                    else if (hr) System.out.println(ConsoleApp.infoHolder(file, true, true, false, true, true, false));
+                        System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
+                                inf.sizeP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
+                                inf.permissionsHP);
+                    else if (l) System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
+                    else if (hr) System.out.println(inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
                 }
             }
         }

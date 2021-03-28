@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -109,23 +110,24 @@ public class ConsoleApp {
         return permission.toString();
     }
 
-    public static String infoHolder(File file, boolean name, boolean time, boolean size,
-                                    boolean sizeExt, boolean permissionsH, boolean permissionsL) {
-        String nameP = "";
-        if (name) nameP = getName(file) + System.lineSeparator();
-        String timeP = "";
-        if (time) timeP = timeOfLastModification(file) + System.lineSeparator();
-        String sizeP = "";
-        if (size) sizeP = sizeBytes(file) + System.lineSeparator();
-        String sizeExtP = "";
-        if (sizeExt) sizeExtP = rightSize(file) + System.lineSeparator();
-        String permissionsHP = "";
-        if (permissionsH) permissionsHP = filePermissions(file, "r", "w", "x", "-") + System.lineSeparator();
-        String permissionsLP = "";
-        if (permissionsL) permissionsLP = filePermissions(file, "1", "1", "1", "0") + System.lineSeparator();
-        return nameP + timeP + sizeP + sizeExtP + permissionsHP + permissionsLP;
-    }
+    static class infoHolder {
+        String nameP;
+        String timeP;
+        String sizeP;
+        String sizeExtP;
+        String permissionsHP;
+        String permissionsLP;
 
+        infoHolder(File file) {
+            ArrayList<String> resultList = new ArrayList<>();
+            nameP = getName(file);
+            timeP = timeOfLastModification(file);
+            sizeP = sizeBytes(file);
+            sizeExtP = rightSize(file);
+            permissionsHP = filePermissions(file, "r", "w", "x", "-");
+            permissionsLP = filePermissions(file, "1", "1", "1", "0");
+        }
+    }
 }
 
 
