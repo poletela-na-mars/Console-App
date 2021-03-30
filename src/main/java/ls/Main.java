@@ -48,30 +48,31 @@ public class Main {
                 Collections.reverse(Arrays.asList(result)); // Инвертируем массив с информацией о файлах,
                 // из-за присутствия флага -r
             }
-            if (op != null) {
-                try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
-                    for (File file : result) {
-                        ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(file);
-                        if (l && hr) writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
-                                inf.sizeP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
-                                inf.permissionsHP);
-                        else if (l) writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
-                        else if (hr) writer.write(inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
+            for (File file : result) {
+                ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
+                if (op != null) {
+                    try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
+                        if (l && hr)
+                            writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
+                                    inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
+                                    inf.permissionsHP);
+                        else if (l)
+                            writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
+                        else if (hr)
+                            writer.write(inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsHP);
                     }
-                }
-            } else {    // Если флаг отсутствует, то в консоль
-                for (File file : result) {
-                    ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(file);
+                } else {    // Если флаг отсутствует, то в консоль
                     if (l && hr)
                         System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
-                                inf.sizeP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
+                                inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsLP + System.lineSeparator() +
                                 inf.permissionsHP);
-                    else if (l) System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
-                    else if (hr) System.out.println(inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
+                    else if (l)
+                        System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
+                    else if (hr)
+                        System.out.println(inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsHP);
                 }
             }
-        }
-        else System.out.println("Directory or file is empty");
+        } else System.out.println("Directory or file is empty");
     }
 }
 

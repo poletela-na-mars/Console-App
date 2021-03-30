@@ -30,19 +30,18 @@ class ConsoleAppTest {
 
     @Test
     void sizeForHr() {
+        ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[1]);
         File test = new File("src/test/java/resources/java.PNG");
-        assertEquals(ConsoleApp.rightSize(test), "43 Kb");
+        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "43 Kb");
+        inf = new ConsoleApp.InfoHolder(result[2]);
         File test1 = new File("src/test/java/resources/kotlin.PNG");
-        assertEquals(ConsoleApp.rightSize(test1), "22 Kb");
+        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "22 Kb");
+        inf = new ConsoleApp.InfoHolder(result[4]);
         File test2 = new File("src/test/java/resources/three.txt");
-        assertEquals(ConsoleApp.rightSize(test2), "0 B");
+        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "0 B");
+        inf = new ConsoleApp.InfoHolder(result[5]);
         File test3 = new File("src/test/java/resources/two.txt");
-        assertNotEquals(ConsoleApp.rightSize(test3), ConsoleApp.timeOfLastModification(test3));
-        assertNotEquals(ConsoleApp.rightSize(test3), "2048 B");
-        assertEquals(ConsoleApp.rightSize(test3), "1 Kb");
-        File test5 = new File("src/test/java/resources/no.txt");
-        assertNotEquals(ConsoleApp.rightSize(test5), "0 Kb");
-        assertEquals(ConsoleApp.rightSize(test5), "0 B");
+        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "1 Kb");
     }
 
     private final File[] result = ConsoleApp.path(new File("src/test/java/resources"));
@@ -72,32 +71,32 @@ class ConsoleAppTest {
     @Test
     void l() {
         assert result != null;
-        ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(result[0]);
+        ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
         assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator()
-                + "96638 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
-        inf = new ConsoleApp.infoHolder(result[2]);
+                + "96638 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
+        inf = new ConsoleApp.InfoHolder(result[2]);
         assertEquals("kotlin.png" + System.lineSeparator() + "22.03.2021 00:25:25" + System.lineSeparator()
-                + "23198 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
-        inf = new ConsoleApp.infoHolder(result[3]);
+                + "23198 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
+        inf = new ConsoleApp.InfoHolder(result[3]);
         assertEquals("one.txt" + System.lineSeparator() + "22.03.2021 22:06:26" + System.lineSeparator()
-                + "127 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
-        inf = new ConsoleApp.infoHolder(result[4]);
+                + "127 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
+        inf = new ConsoleApp.InfoHolder(result[4]);
         assertEquals("three.txt" + System.lineSeparator() + "22.03.2021 00:59:22" + System.lineSeparator()
-                + "0 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + System.lineSeparator() + inf.permissionsLP);
+                + "0 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.permissionsLP);
     }
 
     @Test
     void human() {
         assert result != null;
-        ConsoleApp.infoHolder inf = new ConsoleApp.infoHolder(result[0]);
+        ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
         assertEquals("folder" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
-        inf = new ConsoleApp.infoHolder(result[1]);
+                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsHP);
+        inf = new ConsoleApp.InfoHolder(result[1]);
         assertEquals("java.png" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
-        inf = new ConsoleApp.infoHolder(result[4]);
+                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsHP);
+        inf = new ConsoleApp.InfoHolder(result[4]);
         assertEquals("three.txt" + System.lineSeparator() + "0 B" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + System.lineSeparator() + inf.permissionsHP);
+                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + inf.permissionsHP);
     }
 }
 

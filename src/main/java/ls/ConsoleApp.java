@@ -4,9 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -52,13 +50,6 @@ public class ConsoleApp {
     }
 
     /**
-     * Метод, возвращающий размер в байтах (отдельный метод, поскольку rightSize() может оптимизирровать до Кб, Мб ...).
-     */
-    public static String sizeBytes(File file) {
-        return size(file) + " B";
-    }
-
-    /**
      * Время последней модификации файла для -l.
      */
     public static String timeOfLastModification(File file) {
@@ -70,7 +61,7 @@ public class ConsoleApp {
     /**
      * Размер файла в кило-, мега- или гигабайтах.
      */
-    public static String rightSize(File file) {
+    public static HashMap<Long, String> rightSize(File file) {
             long rightSize = size(file);
             int count = 0;
             while (rightSize >= 1024) {
@@ -79,12 +70,14 @@ public class ConsoleApp {
             }
             String measure = switch (count) {
             //case 0 -> "B";
-            case 1 -> "Kb";
-            case 2 -> "Mb";
-            case 3 -> "Gb";
-            default -> "B";
+            case 1 -> " Kb";
+            case 2 -> " Mb";
+            case 3 -> " Gb";
+            default -> " B";
         };
-            return rightSize + " " + measure;
+        HashMap<Long, String> rightSizeMap = new HashMap<>();
+        rightSizeMap.put(rightSize, measure);
+        return rightSizeMap;
         }
 
     /**
@@ -110,20 +103,25 @@ public class ConsoleApp {
         return permission.toString();
     }
 
-    static class infoHolder {
+    static class InfoHolder {
         String nameP;
         String timeP;
-        String sizeP;
-        String sizeExtP;
+        long sizeP;
+        String measureSizeP = " B";
+        String measureSizeExtP;
+        long sizeExtP;
         String permissionsHP;
         String permissionsLP;
 
-        infoHolder(File file) {
-            ArrayList<String> resultList = new ArrayList<>();
+        InfoHolder(File file) {
             nameP = getName(file);
             timeP = timeOfLastModification(file);
-            sizeP = sizeBytes(file);
-            sizeExtP = rightSize(file);
+            sizeP = size(file);
+            HashMap.Entry<Long,String> entry = rightSize(file).entrySet().iterator().next();
+            Long key = entry.getKey();
+            String value = entry.getValue();
+            sizeExtP = key;
+            measureSizeExtP = value;
             permissionsHP = filePermissions(file, "r", "w", "x", "-");
             permissionsLP = filePermissions(file, "1", "1", "1", "0");
         }
