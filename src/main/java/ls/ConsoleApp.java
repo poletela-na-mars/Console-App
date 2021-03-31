@@ -83,24 +83,43 @@ public class ConsoleApp {
     /**
      * Права на выполнение/чтение/запись битовой маски XXX для -l или rwx для -h.
      */
-    public static String filePermissions(File file, String r, String w, String x, String none){
-        StringBuilder permission = new StringBuilder();
+    public static ArrayList<Boolean> filePermissions(File file) {
+        ArrayList<Boolean> listPerm = new ArrayList<>();
+        // Создадим список с тремя значениями boolean, соответствующими возможности чтения/записи/выполнения
+        // для последующего "гибкого" использования для вывода
         if (file.canRead()) {
-            permission.append(r);
+            listPerm.add(true);
         } else {
-            permission.append(none);
+            listPerm.add(false);
         }
         if (file.canWrite()) {
-            permission.append(w);
+            listPerm.add(true);
         } else {
-            permission.append(none);
+            listPerm.add(false);
         }
         if (file.canExecute()) {
-            permission.append(x);
+            listPerm.add(true);
         } else {
-            permission.append(none);
+            listPerm.add(false);
         }
-        return permission.toString();
+        return listPerm;
+    }
+
+    /**
+     * Метод преобразования списка в String. Необходим для перехода к выводу. Будем использовать в main.
+     */
+    public static String permissions(ArrayList<Boolean> filePermissions, String r, String w, String x, String none) {
+        StringBuilder strB = new StringBuilder();
+        Boolean read = filePermissions.get(0);
+        if (read) strB.append(r);
+        else strB.append(none);
+        Boolean write = filePermissions.get(1);
+        if (write) strB.append(w);
+        else strB.append(none);
+        Boolean execute = filePermissions.get(2);
+        if (execute) strB.append(x);
+        else strB.append(none);
+        return strB.toString();
     }
 
     static class InfoHolder {
@@ -110,8 +129,7 @@ public class ConsoleApp {
         String measureSizeP = " B";
         String measureSizeExtP;
         long sizeExtP;
-        String permissionsHP;
-        String permissionsLP;
+        ArrayList<Boolean> permissionsP;
 
         InfoHolder(File file) {
             nameP = getName(file);
@@ -122,8 +140,7 @@ public class ConsoleApp {
             String value = entry.getValue();
             sizeExtP = key;
             measureSizeExtP = value;
-            permissionsHP = filePermissions(file, "r", "w", "x", "-");
-            permissionsLP = filePermissions(file, "1", "1", "1", "0");
+            permissionsP = filePermissions(file);
         }
     }
 }

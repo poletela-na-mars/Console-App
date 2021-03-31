@@ -43,6 +43,8 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.ls.Main</mainClass>
                         </manifest>
                         <manifestEntries>
                             <mode>development</mode>
