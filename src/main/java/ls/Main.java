@@ -52,26 +52,28 @@ public class Main {
                 ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
                 String permissionsLP = ConsoleApp.permissions(inf.permissionsP, "1", "1", "1", "0");
                 String permissionsHP = ConsoleApp.permissions(inf.permissionsP, "r", "w", "x", "-");
+                String lH = inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
+                        inf.sizeP + " B" + System.lineSeparator() + inf.sizeExtP + ConsoleApp.measureH(file) + System.lineSeparator() + permissionsLP + System.lineSeparator() +
+                        permissionsHP;
+                String lS = inf.createStrL();
+                String hS = inf.createStrH(file);
+
                 if (op != null) {
                     try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
                         if (l && hr)
-                            writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
-                                    inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsLP + System.lineSeparator() +
-                                    permissionsHP);
+                            writer.write(lH);
                         else if (l)
-                            writer.write(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                            writer.write(lS);
                         else if (hr)
-                            writer.write(inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsHP);
+                            writer.write(hS);
                     }
                 } else {    // Если флаг отсутствует, то в консоль
                     if (l && hr)
-                        System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
-                                inf.sizeP + inf.measureSizeP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsLP + System.lineSeparator() +
-                                permissionsHP);
+                        System.out.println(lH);
                     else if (l)
-                        System.out.println(inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                        System.out.println(lS);
                     else if (hr)
-                        System.out.println(inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsHP);
+                        System.out.println(hS);
                 }
             }
         } else System.out.println("Directory or file is empty");

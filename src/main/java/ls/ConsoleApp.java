@@ -1,6 +1,7 @@
 package ls;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -45,40 +46,36 @@ public class ConsoleApp {
                 else l += fileD.length();
             }
             return l;
-        }
-        else return file.length();
+        } else return file.length();
     }
 
     /**
      * Время последней модификации файла для -l.
      */
-    public static String timeOfLastModification(File file) {
-        final long time = file.lastModified();
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        return df.format(new Date(time));
+    public static long timeOfLastModification(File file) {
+        return file.lastModified();
     }
 
     /**
      * Размер файла в кило-, мега- или гигабайтах.
      */
-    public static HashMap<Long, String> rightSize(File file) {
-            long rightSize = size(file);
-            int count = 0;
-            while (rightSize >= 1024) {
-                rightSize /= 1024;
-                count++;
-            }
-            String measure = switch (count) {
+    public static ImmutablePair rightSize(File file) {
+        long rightSize = size(file);
+        int count = 0;
+        while (rightSize >= 1024) {
+            rightSize /= 1024;
+            count++;
+        }
+        String measure = switch (count) {
             //case 0 -> "B";
             case 1 -> " Kb";
             case 2 -> " Mb";
             case 3 -> " Gb";
             default -> " B";
         };
-        HashMap<Long, String> rightSizeMap = new HashMap<>();
-        rightSizeMap.put(rightSize, measure);
-        return rightSizeMap;
-        }
+        return new ImmutablePair(rightSize, measure);
+    }
+
 
     /**
      * Права на выполнение/чтение/запись битовой маски XXX для -l или rwx для -h.
@@ -87,21 +84,9 @@ public class ConsoleApp {
         ArrayList<Boolean> listPerm = new ArrayList<>();
         // Создадим список с тремя значениями boolean, соответствующими возможности чтения/записи/выполнения
         // для последующего "гибкого" использования для вывода
-        if (file.canRead()) {
-            listPerm.add(true);
-        } else {
-            listPerm.add(false);
-        }
-        if (file.canWrite()) {
-            listPerm.add(true);
-        } else {
-            listPerm.add(false);
-        }
-        if (file.canExecute()) {
-            listPerm.add(true);
-        } else {
-            listPerm.add(false);
-        }
+        listPerm.add(file.canRead());
+        listPerm.add(file.canWrite());
+        listPerm.add(file.canExecute());
         return listPerm;
     }
 
@@ -122,24 +107,34 @@ public class ConsoleApp {
         return strB.toString();
     }
 
+    public static String measureH(File file){
+        return (String) rightSize(file).right;
+    }
+
     static class InfoHolder {
         String nameP;
-        String timeP;
+        long timeP;
         long sizeP;
-        String measureSizeP = " B";
-        String measureSizeExtP;
         long sizeExtP;
         ArrayList<Boolean> permissionsP;
+
+        String createStrL() {
+            String permissionsLP = ConsoleApp.permissions(permissionsP, "1", "1", "1", "0");
+            SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+            String time = df.format(new Date(timeP));
+            return String.format(nameP + System.lineSeparator() + time + System.lineSeparator() + sizeP + "%s" + System.lineSeparator() + permissionsLP, " B");
+        }
+
+        String createStrH(File file) {
+            String permissionsHP = ConsoleApp.permissions(permissionsP, "r", "w", "x", "-");
+            return String.format(nameP + System.lineSeparator() + sizeExtP + "%s" + System.lineSeparator() + permissionsHP, measureH(file));
+        }
 
         InfoHolder(File file) {
             nameP = getName(file);
             timeP = timeOfLastModification(file);
             sizeP = size(file);
-            HashMap.Entry<Long,String> entry = rightSize(file).entrySet().iterator().next();
-            Long key = entry.getKey();
-            String value = entry.getValue();
-            sizeExtP = key;
-            measureSizeExtP = value;
+            sizeExtP = (long) rightSize(file).left;
             permissionsP = filePermissions(file);
         }
     }

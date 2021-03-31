@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsoleAppTest {
 
-    @Test
+    // Закомментируем, поскольку проверяться все в целом будет дальше
+    /*@Test
     void timeOfLastModification() {
         File test = new File("src/test/java/resources/java.PNG");
         assertEquals(ConsoleApp.timeOfLastModification(test), "22.03.2021 00:25:56");
@@ -42,7 +43,7 @@ class ConsoleAppTest {
         inf = new ConsoleApp.InfoHolder(result[5]);
         File test3 = new File("src/test/java/resources/two.txt");
         assertEquals(inf.sizeExtP + inf.measureSizeExtP, "1 Kb");
-    }
+    }*/
 
     private final File[] result = ConsoleApp.path(new File("src/test/java/resources"));
     private final File[] file = new File[0];
@@ -74,16 +75,16 @@ class ConsoleAppTest {
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
         String permissionsLP = ConsoleApp.permissions(inf.permissionsP, "1", "1", "1", "0");
         assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator()
-                + "96638 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                + "96638 B" + System.lineSeparator() + "111", inf.createStrL());
         inf = new ConsoleApp.InfoHolder(result[2]);
         assertEquals("kotlin.png" + System.lineSeparator() + "22.03.2021 00:25:25" + System.lineSeparator()
-                + "23198 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                + "23198 B" + System.lineSeparator() + "111", inf.createStrL());
         inf = new ConsoleApp.InfoHolder(result[3]);
         assertEquals("one.txt" + System.lineSeparator() + "22.03.2021 22:06:26" + System.lineSeparator()
-                + "127 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                + "127 B" + System.lineSeparator() + "111", inf.createStrL());
         inf = new ConsoleApp.InfoHolder(result[4]);
         assertEquals("three.txt" + System.lineSeparator() + "22.03.2021 00:59:22" + System.lineSeparator()
-                + "0 B" + System.lineSeparator() + "111", inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() + inf.sizeP + inf.measureSizeP + System.lineSeparator() + permissionsLP);
+                + "0 B" + System.lineSeparator() + "111", inf.createStrL());
     }
 
     @Test
@@ -92,13 +93,13 @@ class ConsoleAppTest {
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
         String permissionsHP = ConsoleApp.permissions(inf.permissionsP, "r", "w", "x", "-");
         assertEquals("folder" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsHP);
+                "rwx", inf.createStrH(result[0]));
         inf = new ConsoleApp.InfoHolder(result[1]);
         assertEquals("java.png" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsHP);
+                "rwx", inf.createStrH(result[1]));
         inf = new ConsoleApp.InfoHolder(result[4]);
         assertEquals("three.txt" + System.lineSeparator() + "0 B" + System.lineSeparator() +
-                "rwx", inf.nameP + System.lineSeparator() + inf.sizeExtP + inf.measureSizeExtP + System.lineSeparator() + permissionsHP);
+                "rwx", inf.createStrH(result[4]));
     }
 }
 
