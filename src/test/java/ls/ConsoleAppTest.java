@@ -73,7 +73,6 @@ class ConsoleAppTest {
     void l() {
         assert result != null;
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
-        String permissionsLP = ConsoleApp.permissions(inf.permissionsP, "1", "1", "1", "0");
         assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator()
                 + "96638 B" + System.lineSeparator() + "111", inf.createStrL());
         inf = new ConsoleApp.InfoHolder(result[2]);
@@ -91,14 +90,13 @@ class ConsoleAppTest {
     void human() {
         assert result != null;
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
-        String permissionsHP = ConsoleApp.permissions(inf.permissionsP, "r", "w", "x", "-");
-        assertEquals("folder" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
+        assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
                 "rwx", inf.createStrH(result[0]));
         inf = new ConsoleApp.InfoHolder(result[1]);
-        assertEquals("java.png" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
+        assertEquals("java.png" + System.lineSeparator() + "22.03.2021 00:25:56" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
                 "rwx", inf.createStrH(result[1]));
         inf = new ConsoleApp.InfoHolder(result[4]);
-        assertEquals("three.txt" + System.lineSeparator() + "0 B" + System.lineSeparator() +
+        assertEquals("three.txt" + System.lineSeparator() + "22.03.2021 00:59:22" + System.lineSeparator() + "0 B" + System.lineSeparator() +
                 "rwx", inf.createStrH(result[4]));
     }
 }

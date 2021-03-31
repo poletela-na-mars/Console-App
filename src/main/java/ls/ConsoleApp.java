@@ -22,7 +22,7 @@ public class ConsoleApp {
             return file.listFiles();
         } else {
             if (file.exists()) return new File[]{file};
-            return emptyFileArray(); //null
+            return emptyFileArray();
         }
     }
 
@@ -59,7 +59,7 @@ public class ConsoleApp {
     /**
      * Размер файла в кило-, мега- или гигабайтах.
      */
-    public static ImmutablePair rightSize(File file) {
+    public static ImmutablePair<Long, String> rightSize(File file) {
         long rightSize = size(file);
         int count = 0;
         while (rightSize >= 1024) {
@@ -73,7 +73,7 @@ public class ConsoleApp {
             case 3 -> " Gb";
             default -> " B";
         };
-        return new ImmutablePair(rightSize, measure);
+        return new ImmutablePair<>(rightSize, measure);
     }
 
 
@@ -108,34 +108,36 @@ public class ConsoleApp {
     }
 
     public static String measureH(File file){
-        return (String) rightSize(file).right;
+        return rightSize(file).right;
     }
 
     static class InfoHolder {
-        String nameP;
-        long timeP;
-        long sizeP;
-        long sizeExtP;
-        ArrayList<Boolean> permissionsP;
+        String name;
+        long time;
+        long size;
+        ArrayList<Boolean> permissions;
 
         String createStrL() {
-            String permissionsLP = ConsoleApp.permissions(permissionsP, "1", "1", "1", "0");
+            String permissionsLP = ConsoleApp.permissions(permissions, "1", "1", "1", "0");
+            return String.format(name + "%n" + time() + "%n" + size + "%s" + "%n" + permissionsLP, " B");
+        }
+
+        String time(){
             SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-            String time = df.format(new Date(timeP));
-            return String.format(nameP + System.lineSeparator() + time + System.lineSeparator() + sizeP + "%s" + System.lineSeparator() + permissionsLP, " B");
+            return df.format(new Date(time));
         }
 
         String createStrH(File file) {
-            String permissionsHP = ConsoleApp.permissions(permissionsP, "r", "w", "x", "-");
-            return String.format(nameP + System.lineSeparator() + sizeExtP + "%s" + System.lineSeparator() + permissionsHP, measureH(file));
+            Long sizeExtP = rightSize(file).left;
+            String permissionsHP = ConsoleApp.permissions(permissions, "r", "w", "x", "-");
+            return String.format(name + "%n" + time() + "%n" + sizeExtP + "%s" + "%n" + permissionsHP, measureH(file));
         }
 
         InfoHolder(File file) {
-            nameP = getName(file);
-            timeP = timeOfLastModification(file);
-            sizeP = size(file);
-            sizeExtP = (long) rightSize(file).left;
-            permissionsP = filePermissions(file);
+            name = getName(file);
+            time = timeOfLastModification(file);
+            size = size(file);
+            permissions = filePermissions(file);
         }
     }
 }

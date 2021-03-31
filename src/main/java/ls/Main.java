@@ -50,26 +50,19 @@ public class Main {
             }
             for (File file : result) {
                 ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
-                String permissionsLP = ConsoleApp.permissions(inf.permissionsP, "1", "1", "1", "0");
-                String permissionsHP = ConsoleApp.permissions(inf.permissionsP, "r", "w", "x", "-");
-                String lH = inf.nameP + System.lineSeparator() + inf.timeP + System.lineSeparator() +
-                        inf.sizeP + " B" + System.lineSeparator() + inf.sizeExtP + ConsoleApp.measureH(file) + System.lineSeparator() + permissionsLP + System.lineSeparator() +
-                        permissionsHP;
                 String lS = inf.createStrL();
                 String hS = inf.createStrH(file);
 
                 if (op != null) {
                     try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
-                        if (l && hr)
-                            writer.write(lH);
+                        if (l && hr) writer.write(hS);
                         else if (l)
                             writer.write(lS);
                         else if (hr)
                             writer.write(hS);
                     }
                 } else {    // Если флаг отсутствует, то в консоль
-                    if (l && hr)
-                        System.out.println(lH);
+                    if (l && hr) System.out.println(hS);
                     else if (l)
                         System.out.println(lS);
                     else if (hr)
