@@ -35,7 +35,7 @@ public class ConsoleApp {
     }
 
     /**
-     * Метод, возвращающий размер файла или директории. Также яляется вспомогательным для метода sizeForH.
+     * Метод, возвращающий размер файла или директории.
      */
     public static long size(File file) {
         if (file.isDirectory()) {
@@ -56,9 +56,6 @@ public class ConsoleApp {
         return file.lastModified();
     }
 
-    /**
-     * Права на выполнение/чтение/запись битовой маски XXX для -l или rwx для -h.
-     */
     public static List<Boolean> filePermissions(File file) {
         List<Boolean> listPerm = new ArrayList<>();
         // Создадим список с тремя значениями boolean, соответствующими возможности чтения/записи/выполнения
@@ -76,7 +73,7 @@ public class ConsoleApp {
         List<Boolean> permissions;
 
         String createStrL() {
-            String permissionsLP = permissions(permissions, "1", "1", "1", "0");
+            String permissionsLP = permissions("1", "1", "1", "0");
             return String.format("%s%n%s%n%d%s%n%s", name, time(), sizeB, " B", permissionsLP);
         }
 
@@ -87,7 +84,7 @@ public class ConsoleApp {
 
         String createStrH() {
             Long sizeExtP = rightSize().left;
-            String permissionsHP = permissions(permissions, "r", "w", "x", "-");
+            String permissionsHP = permissions("r", "w", "x", "-");
             return String.format("%s%n%s%n%d%s%n%s", name, time(), sizeExtP, rightSize().right, permissionsHP);
         }
 
@@ -111,18 +108,15 @@ public class ConsoleApp {
             return new ImmutablePair<>(rightSize, measure);
         }
 
-        /**
-         * Метод преобразования списка в String. Необходим для перехода к выводу. Будем использовать в main.
-         */
-        public String permissions(List<Boolean> filePermissions, String r, String w, String x, String none) {
+        public String permissions(String r, String w, String x, String none) {
             StringBuilder strB = new StringBuilder();
-            Boolean read = filePermissions.get(0);
+            Boolean read = permissions.get(0);
             if (read) strB.append(r);
             else strB.append(none);
-            Boolean write = filePermissions.get(1);
+            Boolean write = permissions.get(1);
             if (write) strB.append(w);
             else strB.append(none);
-            Boolean execute = filePermissions.get(2);
+            Boolean execute = permissions.get(2);
             if (execute) strB.append(x);
             else strB.append(none);
             return strB.toString();

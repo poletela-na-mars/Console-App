@@ -31,7 +31,6 @@ public class Main {
         new Main().start(args);
     }
 
-    Appendable appendable;
     void work(Appendable appendable, File file) throws IOException {
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
         if (l && hr)

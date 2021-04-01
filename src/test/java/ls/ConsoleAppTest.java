@@ -8,43 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsoleAppTest {
 
-    // Закомментируем, поскольку проверяться все в целом будет дальше
-    /*@Test
-    void timeOfLastModification() {
-        File test = new File("src/test/java/resources/java.PNG");
-        assertEquals(ConsoleApp.timeOfLastModification(test), "22.03.2021 00:25:56");
-        File test1 = new File("src/test/java/resources/kotlin.PNG");
-        assertEquals(ConsoleApp.timeOfLastModification(test1), "22.03.2021 00:25:25");
-        File test2 = new File("src/test/java/resources/one.txt");
-        assertEquals(ConsoleApp.timeOfLastModification(test2), "22.03.2021 22:06:26");
-        File test3 = new File("src/test/java/resources/no.txt");
-        assertEquals(ConsoleApp.timeOfLastModification(test3), "01.01.1970 03:00:00");
-        File test4 = new File("src/test/java/resources/two.txt");
-        assertNotEquals(ConsoleApp.timeOfLastModification(test4), "22.03.2021 00:24:09");
-        assertNotEquals(ConsoleApp.timeOfLastModification(test2), "12.12.2012 12:12:12");
-        assertNotEquals(ConsoleApp.timeOfLastModification(test), "xyz");
-        File test5 = new File("src/test/java/resources/5.txt");
-        assertEquals(ConsoleApp.timeOfLastModification(test3), ConsoleApp.timeOfLastModification(test5));
-        File test6 = new File("src/test/java/resources/folder");
-        assertEquals(ConsoleApp.timeOfLastModification(test6), "22.03.2021 01:02:39");
-    }
-
-    @Test
-    void sizeForHr() {
-        ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[1]);
-        File test = new File("src/test/java/resources/java.PNG");
-        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "43 Kb");
-        inf = new ConsoleApp.InfoHolder(result[2]);
-        File test1 = new File("src/test/java/resources/kotlin.PNG");
-        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "22 Kb");
-        inf = new ConsoleApp.InfoHolder(result[4]);
-        File test2 = new File("src/test/java/resources/three.txt");
-        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "0 B");
-        inf = new ConsoleApp.InfoHolder(result[5]);
-        File test3 = new File("src/test/java/resources/two.txt");
-        assertEquals(inf.sizeExtP + inf.measureSizeExtP, "1 Kb");
-    }*/
-
     private final File[] result = ConsoleApp.path(new File("src/test/java/resources"));
     private final File[] file = new File[0];
 
