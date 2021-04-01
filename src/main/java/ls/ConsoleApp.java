@@ -2,6 +2,7 @@ package ls;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -83,9 +84,9 @@ public class ConsoleApp {
         }
 
         String createStrH() {
-            Long sizeExtP = rightSize().left;
+            ImmutablePair<Long, String> sizeExtP = rightSize();
             String permissionsHP = permissions("r", "w", "x", "-");
-            return String.format("%s%n%s%n%d%s%n%s%n", name, time(), sizeExtP, rightSize().right, permissionsHP);
+            return String.format("%s%n%s%n%d%s%n%s%n", name, time(), sizeExtP.left, sizeExtP.right, permissionsHP);
         }
 
         /**
@@ -110,13 +111,13 @@ public class ConsoleApp {
 
         public String permissions(String r, String w, String x, String none) {
             StringBuilder strB = new StringBuilder();
-            Boolean read = permissions.get(0);
+            boolean read = permissions.get(0);
             if (read) strB.append(r);
             else strB.append(none);
-            Boolean write = permissions.get(1);
+            boolean write = permissions.get(1);
             if (write) strB.append(w);
             else strB.append(none);
-            Boolean execute = permissions.get(2);
+            boolean execute = permissions.get(2);
             if (execute) strB.append(x);
             else strB.append(none);
             return strB.toString();
