@@ -114,7 +114,7 @@ public class ConsoleApp {
         /**
          * Метод преобразования списка в String. Необходим для перехода к выводу. Будем использовать в main.
          */
-        public static String permissions(List<Boolean> filePermissions, String r, String w, String x, String none) {
+        public String permissions(List<Boolean> filePermissions, String r, String w, String x, String none) {
             StringBuilder strB = new StringBuilder();
             Boolean read = filePermissions.get(0);
             if (read) strB.append(r);

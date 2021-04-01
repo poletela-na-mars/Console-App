@@ -31,6 +31,17 @@ public class Main {
         new Main().start(args);
     }
 
+    Appendable appendable;
+    void work(Appendable appendable, File file) throws IOException {
+        ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
+        if (l && hr)
+            appendable.append(inf.createStrH());
+        else if (l)
+            appendable.append(inf.createStrL());
+        else if (hr)
+            appendable.append(inf.createStrH());
+    }
+
     public void start(String[] args) throws IOException {
         CmdLineParser parser = new CmdLineParser(this);
         try {
@@ -42,33 +53,27 @@ public class Main {
             return;
         }
 
-        if (ConsoleApp.path(forD).length != 0) {    // Если есть аргументы
-            File[] result = ConsoleApp.path(forD);
+        File[] result = ConsoleApp.path(forD);
+        if (result.length != 0) {    // Если есть аргументы
             if (rv) {
                 Collections.reverse(Arrays.asList(result)); // Инвертируем массив с информацией о файлах,
                 // из-за присутствия флага -r
             }
             for (File file : result) {
                 ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
-                String lS = inf.createStrL();
-                String hS = inf.createStrH();
-                Appendable appendable;
                 if (op != null) {
-                    appendable = new FileWriter(op);
-                }
-                else {
-                    appendable = System.out;
+                    try(FileWriter fileWriter = new FileWriter(op)) {
+                        work(fileWriter, file);
+                    }
+                } else {
+                    work(System.out, file);
                 }
 
-                if (l && hr)
-                            appendable.append(hS);
-                        else if (l)
-                            appendable.append(lS);
-                        else if (hr)
-                            appendable.append(hS);
+
             }
         } else System.out.println("Directory or file is empty");
     }
+
 }
 
 
