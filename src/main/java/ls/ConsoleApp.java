@@ -74,7 +74,7 @@ public class ConsoleApp {
 
         String createStrL() {
             String permissionsLP = permissions("1", "1", "1", "0");
-            return String.format("%s%n%s%n%d%s%n%s", name, time(), sizeB, " B", permissionsLP);
+            return String.format("%s%n%s%n%d%s%n%s%n", name, time(), sizeB, " B", permissionsLP);
         }
 
         String time(){
@@ -85,7 +85,7 @@ public class ConsoleApp {
         String createStrH() {
             Long sizeExtP = rightSize().left;
             String permissionsHP = permissions("r", "w", "x", "-");
-            return String.format("%s%n%s%n%d%s%n%s", name, time(), sizeExtP, rightSize().right, permissionsHP);
+            return String.format("%s%n%s%n%d%s%n%s%n", name, time(), sizeExtP, rightSize().right, permissionsHP);
         }
 
         /**
