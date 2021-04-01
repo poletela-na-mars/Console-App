@@ -91,13 +91,13 @@ class ConsoleAppTest {
         assert result != null;
         ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(result[0]);
         assertEquals("folder" + System.lineSeparator() + "22.03.2021 01:02:39" + System.lineSeparator() + "94 Kb" + System.lineSeparator() +
-                "rwx", inf.createStrH(result[0]));
+                "rwx", inf.createStrH());
         inf = new ConsoleApp.InfoHolder(result[1]);
         assertEquals("java.png" + System.lineSeparator() + "22.03.2021 00:25:56" + System.lineSeparator() + "43 Kb" + System.lineSeparator() +
-                "rwx", inf.createStrH(result[1]));
+                "rwx", inf.createStrH());
         inf = new ConsoleApp.InfoHolder(result[4]);
         assertEquals("three.txt" + System.lineSeparator() + "22.03.2021 00:59:22" + System.lineSeparator() + "0 B" + System.lineSeparator() +
-                "rwx", inf.createStrH(result[4]));
+                "rwx", inf.createStrH());
     }
 }
 

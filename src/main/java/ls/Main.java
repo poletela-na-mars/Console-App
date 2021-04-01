@@ -51,23 +51,21 @@ public class Main {
             for (File file : result) {
                 ConsoleApp.InfoHolder inf = new ConsoleApp.InfoHolder(file);
                 String lS = inf.createStrL();
-                String hS = inf.createStrH(file);
-
+                String hS = inf.createStrH();
+                Appendable appendable;
                 if (op != null) {
-                    try (FileWriter writer = new FileWriter(op)) {  // Место, куда будем записывать информацию
-                        if (l && hr) writer.write(hS);
-                        else if (l)
-                            writer.write(lS);
-                        else if (hr)
-                            writer.write(hS);
-                    }
-                } else {    // Если флаг отсутствует, то в консоль
-                    if (l && hr) System.out.println(hS);
-                    else if (l)
-                        System.out.println(lS);
-                    else if (hr)
-                        System.out.println(hS);
+                    appendable = new FileWriter(op);
                 }
+                else {
+                    appendable = System.out;
+                }
+
+                if (l && hr)
+                            appendable.append(hS);
+                        else if (l)
+                            appendable.append(lS);
+                        else if (hr)
+                            appendable.append(hS);
             }
         } else System.out.println("Directory or file is empty");
     }
