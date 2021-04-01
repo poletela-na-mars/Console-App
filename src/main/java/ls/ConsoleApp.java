@@ -72,7 +72,7 @@ public class ConsoleApp {
     static class InfoHolder {
         String name;
         long time;
-        static long sizeB;
+        long sizeB;
         List<Boolean> permissions;
 
         String createStrL() {
@@ -94,7 +94,7 @@ public class ConsoleApp {
         /**
          * Размер файла в кило-, мега- или гигабайтах.
          */
-        public static ImmutablePair<Long, String> rightSize() {
+        public ImmutablePair<Long, String> rightSize() {
             long rightSize = sizeB;
             int count = 0;
             while (rightSize >= 1024) {
